@@ -76,3 +76,5 @@ app.delete( "/api/countries/:id", deleteCountry );
 app.listen( port, () => {
     console.log( "Listening to port:", port );
 } );
+
+module.exports = app;

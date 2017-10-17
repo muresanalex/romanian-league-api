@@ -2,24 +2,25 @@ const path = require( "path" );
 const Datastore = require( "nedb" );
 
 const db = {};
+const basePath = process.env.NODE_ENV === "test" ? "/db/mockDB" : "/db";
 
 db.players = new Datastore( {
-    filename: `${ path.join( __dirname, "/db/players.db" ) }`,
+    filename: `${ path.join( __dirname, basePath, "/players.db" ) }`,
     autoload: true,
 } );
 
 db.teams = new Datastore( {
-    filename: `${ path.join( __dirname, "/db/teams.db" ) }`,
+    filename: `${ path.join( __dirname, basePath, "/teams.db" ) }`,
     autoload: true,
 } );
 
 db.leagues = new Datastore( {
-    filename: `${ path.join( __dirname, "/db/leagues.db" ) }`,
+    filename: `${ path.join( __dirname, basePath, "/leagues.db" ) }`,
     autoload: true,
 } );
 
 db.countries = new Datastore( {
-    filename: `${ path.join( __dirname, "/db/countries.db" ) }`,
+    filename: `${ path.join( __dirname, basePath, "/countries.db" ) }`,
     autoload: true,
 } );
 

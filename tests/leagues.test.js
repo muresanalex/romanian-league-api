@@ -9,32 +9,34 @@ const should = chai.should(); // eslint-disable-line
 
 chai.use( chaiHttp );
 
-describe( "Countries", () => {
+describe( "Leagues", () => {
     beforeEach( ( done ) => {
-        db.countries.remove( {}, { multi: true }, ( err, numRemoved ) => { // eslint-disable-line
+        db.leagues.remove( {}, { multi: true }, ( err, numRemoved ) => { // eslint-disable-line
             done();
         } );
     } );
 
-    describe( "/GET countries", () => {
-        it( "it should GET all countries", ( done ) => {
+    describe( "/GET leagues", () => {
+        it( "it should GET all leagues", ( done ) => {
             chai.request( server )
-                .get( "/api/countries" )
+                .get( "/api/leagues" )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
-                    res.body.countries.length.should.be.eql( 0 );
+                    res.body.leagues.length.should.be.eql( 0 );
                     done();
                 } );
         } );
     } );
 
-    describe( "/POST country", () => {
-        it( "it should not post a country without name", ( done ) => {
-            const country = {};
+    describe( "/POST league", () => {
+        it( "it should not post a league without name", ( done ) => {
+            const league = {
+                country: "Romania",
+            };
             chai.request( server )
-                .post( "/api/countries" )
-                .send( country )
+                .post( "/api/leagues" )
+                .send( league )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
@@ -44,76 +46,101 @@ describe( "Countries", () => {
                 } );
         } );
 
-        it( "it should post a country", ( done ) => {
-            const country = {
-                name: "Romania",
+        it( "it should not post a league without country", ( done ) => {
+            const league = {
+                name: "Liga I",
             };
             chai.request( server )
-                .post( "/api/countries" )
-                .send( country )
+                .post( "/api/leagues" )
+                .send( league )
+                .end( ( err, res ) => {
+                    res.should.have.status( 200 );
+                    res.body.should.be.a( "object" );
+                    res.body.should.have.property( "error" );
+                    done();
+                } );
+        } );
+
+        it( "it should post a league", ( done ) => {
+            const league = {
+                name: "Liga I",
+                country: "Romania",
+            };
+            chai.request( server )
+                .post( "/api/leagues" )
+                .send( league )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
+                    res.body.payload.should.have.property( "country" );
                     res.body.payload.should.have.property( "_id" );
                     done();
                 } );
         } );
     } );
-    describe( "/GET/:id country", () => {
-        it( "should GET a country by the given id", ( done ) => {
-            const country = {
-                name: "Romania",
+    describe( "/GET/:id league", () => {
+        it( "should GET a league by the given id", ( done ) => {
+            const league = {
+                name: "Liga 1",
+                country: "Romania",
             };
-            let countryId;
+            let leagueId;
 
             chai.request( server )
-                .post( "/api/countries" )
-                .send( country )
+                .post( "/api/leagues" )
+                .send( league )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
+                    res.body.payload.should.have.property( "country" );
                     res.body.payload.should.have.property( "_id" );
-                    countryId = res.body.payload._id; // eslint-disable-line
+                    leagueId = res.body.payload._id; // eslint-disable-line
                     done();
                 } );
 
             chai.request( server )
-                .get( `/api/countries/${ countryId }` )
+                .get( `/api/leagues/${ leagueId }` )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
-                    res.body.country[ 0 ].should.have.property( "name" ).eql( "Romania" );
-                    res.body.country[ 0 ].should.have.property( "_id" ).eql( countryId );
+                    res.body.leagues[ 0 ].should.have.property( "name" ).eql( "Liga 1" );
+                    res.body.leagues[ 0 ].should.have.property( "country" ).eql( "Romania" );
+                    res.body.leagues[ 0 ].should.have.property( "_id" ).eql( leagueId );
                     done();
                 } );
         } );
     } );
-    describe( "/PUT/:id country", () => {
-        it( "it should UPDATE a country given the id", ( done ) => {
-            const country = {
-                name: "Moldova",
+    describe( "/PUT/:id league", () => {
+        it( "it should UPDATE a league given the id", ( done ) => {
+            const league = {
+                name: "Liga 1",
+                country: "Romania",
             };
-            let countryId;
+            let leagueId;
 
             chai.request( server )
-                .post( "/api/countries" )
-                .send( country )
+                .post( "/api/leagues" )
+                .send( league )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
+                    res.body.payload.should.have.property( "country" );
                     res.body.payload.should.have.property( "_id" );
-                    countryId = res.body.payload._id; // eslint-disable-line
+                    leagueId = res.body.payload._id; // eslint-disable-line
                     done();
                 } );
 
             chai.request( server )
-                .put( `/api/countries/${ countryId }` )
-                .send( { name: "Republica Moldova" } )
+                .put( `/api/leagues/${ leagueId }` )
+                .send( {
+                    name: "Liga I Betano",
+                    country: "Romania",
+                } )
                 .end( ( err, res ) => {
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.should.have.property( "payload" ).eql( 1 );
@@ -121,28 +148,30 @@ describe( "Countries", () => {
                 } );
         } );
     } );
-    describe( "/DELETE/:id country", () => {
-        it( "it should DELETE a country given the id", ( done ) => {
-            const country = {
-                name: "Moldova",
+    describe( "/DELETE/:id league", () => {
+        it( "it should DELETE a league given the id", ( done ) => {
+            const league = {
+                name: "Liga 1",
+                country: "Romania",
             };
-            let countryId;
+            let leagueId;
 
             chai.request( server )
-                .post( "/api/countries" )
-                .send( country )
+                .post( "/api/leagues" )
+                .send( league )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
+                    res.body.payload.should.have.property( "country" );
                     res.body.payload.should.have.property( "_id" );
-                    countryId = res.body.payload._id; // eslint-disable-line
+                    leagueId = res.body.payload._id; // eslint-disable-line
                     done();
                 } );
 
             chai.request( server )
-                .delete( `/api/countries/${ countryId }` )
+                .delete( `/api/leagues/${ leagueId }` )
                 .end( ( err, res ) => {
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.should.have.property( "payload" ).eql( 1 );

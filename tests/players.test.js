@@ -7,6 +7,55 @@ const db = require( "../dataBases" ).db;
 
 const should = chai.should(); // eslint-disable-line
 
+const defaultPlayer = {
+    name: "New Player",
+    country: "Romania",
+    dateOfBirth: new Date( "05/18/1992" ),
+    height: 187,
+    weight: 79,
+    teamId: 1,
+    position: "GK",
+    jerseyNumber: 18,
+    preferredFoot: "right",
+    internationalReputation: 1,
+    weakFoot: 2,
+    skillMoves: 1,
+    crossing: 50,
+    finishing: 50,
+    headingAccuracy: 50,
+    shortPassing: 50,
+    volleys: 50,
+    dribbling: 50,
+    curve: 50,
+    freeKickAccuracy: 50,
+    longPassing: 50,
+    ballControl: 50,
+    acceleration: 50,
+    sprintSpeed: 50,
+    agility: 50,
+    reactions: 50,
+    balance: 50,
+    shotPower: 50,
+    jumping: 50,
+    stamina: 50,
+    strength: 50,
+    longShots: 50,
+    aggression: 50,
+    interceptions: 50,
+    positioning: 50,
+    vision: 50,
+    penalties: 50,
+    composure: 50,
+    marking: 50,
+    standingTackle: 50,
+    slidingTackle: 50,
+    gkDiving: 50,
+    gkHandling: 50,
+    gkKicking: 50,
+    gkPositioning: 50,
+    gkReflexes: 50,
+};
+
 chai.use( chaiHttp );
 
 describe( "Players", () => {
@@ -91,57 +140,9 @@ describe( "Players", () => {
         } );
 
         it( "it should post a player", ( done ) => {
-            const player = {
-                name: "New Player",
-                country: "Romania",
-                dateOfBirth: new Date( "05/18/1992" ),
-                height: 187,
-                weight: 79,
-                teamId: 1,
-                position: "GK",
-                jerseyNumber: 18,
-                preferredFoot: "right",
-                internationalReputation: 1,
-                weakFoot: 2,
-                skillMoves: 1,
-                crossing: 50,
-                finishing: 50,
-                headingAccuracy: 50,
-                shortPassing: 50,
-                volleys: 50,
-                dribbling: 50,
-                curve: 50,
-                freeKickAccuracy: 50,
-                longPassing: 50,
-                ballControl: 50,
-                acceleration: 50,
-                sprintSpeed: 50,
-                agility: 50,
-                reactions: 50,
-                balance: 50,
-                shotPower: 50,
-                jumping: 50,
-                stamina: 50,
-                strength: 50,
-                longShots: 50,
-                aggression: 50,
-                interceptions: 50,
-                positioning: 50,
-                vision: 50,
-                penalties: 50,
-                composure: 50,
-                marking: 50,
-                standingTackle: 50,
-                slidingTackle: 50,
-                gkDiving: 50,
-                gkHandling: 50,
-                gkKicking: 50,
-                gkPositioning: 50,
-                gkReflexes: 50,
-            };
             chai.request( server )
                 .post( "/api/players" )
-                .send( player )
+                .send( defaultPlayer )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
@@ -163,59 +164,11 @@ describe( "Players", () => {
 
     describe( "/GET/:id player", () => {
         it( "should GET a player by the given id", ( done ) => {
-            const player = {
-                name: "New Player",
-                country: "Romania",
-                dateOfBirth: new Date( "05/18/1992" ),
-                height: 187,
-                weight: 79,
-                teamId: 1,
-                position: "GK",
-                jerseyNumber: 18,
-                preferredFoot: "right",
-                internationalReputation: 1,
-                weakFoot: 2,
-                skillMoves: 1,
-                crossing: 50,
-                finishing: 50,
-                headingAccuracy: 50,
-                shortPassing: 50,
-                volleys: 50,
-                dribbling: 50,
-                curve: 50,
-                freeKickAccuracy: 50,
-                longPassing: 50,
-                ballControl: 50,
-                acceleration: 50,
-                sprintSpeed: 50,
-                agility: 50,
-                reactions: 50,
-                balance: 50,
-                shotPower: 50,
-                jumping: 50,
-                stamina: 50,
-                strength: 50,
-                longShots: 50,
-                aggression: 50,
-                interceptions: 50,
-                positioning: 50,
-                vision: 50,
-                penalties: 50,
-                composure: 50,
-                marking: 50,
-                standingTackle: 50,
-                slidingTackle: 50,
-                gkDiving: 50,
-                gkHandling: 50,
-                gkKicking: 50,
-                gkPositioning: 50,
-                gkReflexes: 50,
-            };
             let playerId;
 
             chai.request( server )
                 .post( "/api/players" )
-                .send( player )
+                .send( defaultPlayer )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
@@ -254,59 +207,11 @@ describe( "Players", () => {
     } );
     describe( "/PUT/:id player", () => {
         it( "it should UPDATE a player given the id", ( done ) => {
-            const player = {
-                name: "New Player",
-                country: "Romania",
-                dateOfBirth: new Date( "05/18/1992" ),
-                height: 187,
-                weight: 79,
-                teamId: 1,
-                position: "GK",
-                jerseyNumber: 18,
-                preferredFoot: "right",
-                internationalReputation: 1,
-                weakFoot: 2,
-                skillMoves: 1,
-                crossing: 50,
-                finishing: 50,
-                headingAccuracy: 50,
-                shortPassing: 50,
-                volleys: 50,
-                dribbling: 50,
-                curve: 50,
-                freeKickAccuracy: 50,
-                longPassing: 50,
-                ballControl: 50,
-                acceleration: 50,
-                sprintSpeed: 50,
-                agility: 50,
-                reactions: 50,
-                balance: 50,
-                shotPower: 50,
-                jumping: 50,
-                stamina: 50,
-                strength: 50,
-                longShots: 50,
-                aggression: 50,
-                interceptions: 50,
-                positioning: 50,
-                vision: 50,
-                penalties: 50,
-                composure: 50,
-                marking: 50,
-                standingTackle: 50,
-                slidingTackle: 50,
-                gkDiving: 50,
-                gkHandling: 50,
-                gkKicking: 50,
-                gkPositioning: 50,
-                gkReflexes: 50,
-            };
             let playerId;
 
             chai.request( server )
                 .post( "/api/players" )
-                .send( player )
+                .send( defaultPlayer )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
@@ -384,59 +289,11 @@ describe( "Players", () => {
     } );
     describe( "/DELETE/:id player", () => {
         it( "it should DELETE a player given the id", ( done ) => {
-            const player = {
-                name: "New Player",
-                country: "Romania",
-                dateOfBirth: new Date( "05/18/1992" ),
-                height: 187,
-                weight: 79,
-                teamId: 1,
-                position: "GK",
-                jerseyNumber: 18,
-                preferredFoot: "right",
-                internationalReputation: 1,
-                weakFoot: 2,
-                skillMoves: 1,
-                crossing: 50,
-                finishing: 50,
-                headingAccuracy: 50,
-                shortPassing: 50,
-                volleys: 50,
-                dribbling: 50,
-                curve: 50,
-                freeKickAccuracy: 50,
-                longPassing: 50,
-                ballControl: 50,
-                acceleration: 50,
-                sprintSpeed: 50,
-                agility: 50,
-                reactions: 50,
-                balance: 50,
-                shotPower: 50,
-                jumping: 50,
-                stamina: 50,
-                strength: 50,
-                longShots: 50,
-                aggression: 50,
-                interceptions: 50,
-                positioning: 50,
-                vision: 50,
-                penalties: 50,
-                composure: 50,
-                marking: 50,
-                standingTackle: 50,
-                slidingTackle: 50,
-                gkDiving: 50,
-                gkHandling: 50,
-                gkKicking: 50,
-                gkPositioning: 50,
-                gkReflexes: 50,
-            };
             let playerId;
 
             chai.request( server )
                 .post( "/api/players" )
-                .send( player )
+                .send( defaultPlayer )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );

@@ -2,19 +2,19 @@ const Joi = require( "joi" );
 const countriesSchema = require( "../models/countries" );
 const db = require( "../dataBases" ).db;
 
-exports.getCountries = ( req, res ) => {
+const getCountries = ( req, res ) => {
     db.countries.find( {}, ( err, countries ) => {
         res.send( { countries } );
     } );
 };
 
-exports.getCountry = ( req, res ) => {
-    db.countries.find( { _id: req.params.id }, ( err, country ) => {
+const getCountry = ( req, res ) => {
+    db.countries.findOne( { _id: req.params.id }, ( err, country ) => {
         res.send( { country } );
     } );
 };
 
-exports.createCountry = ( req, res ) => {
+const createCountry = ( req, res ) => {
     const result = Joi.validate( req.body, countriesSchema.schema );
     if ( result.error ) {
         res.send( {
@@ -32,7 +32,7 @@ exports.createCountry = ( req, res ) => {
     } );
 };
 
-exports.updateCountry = ( req, res ) => {
+const updateCountry = ( req, res ) => {
     const result = Joi.validate( req.body, countriesSchema.schema );
     if ( result.error ) {
         res.send( {
@@ -50,7 +50,7 @@ exports.updateCountry = ( req, res ) => {
     } );
 };
 
-exports.deleteCountry = ( req, res ) => {
+const deleteCountry = ( req, res ) => {
     db.countries.remove( { _id: req.params.id }, {}, ( err, country ) => {
         if ( err ) {
             res.send( { status: "error", error: err } );
@@ -58,4 +58,12 @@ exports.deleteCountry = ( req, res ) => {
         }
         res.send( { status: "success", payload: country } );
     } );
+};
+
+module.exports = {
+    getCountries,
+    getCountry,
+    createCountry,
+    updateCountry,
+    deleteCountry,
 };

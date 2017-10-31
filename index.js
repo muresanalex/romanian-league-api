@@ -2,34 +2,10 @@ const express = require( "express" );
 const bodyParser = require( "body-parser" );
 const cors = require( "cors" );
 
-const {
-    getPlayers,
-    getPlayer,
-    createPlayer,
-    updatePlayer,
-    deletePlayer,
-} = require( "./controllers/playersController" );
-const {
-    getTeams,
-    getTeam,
-    createTeam,
-    updateTeam,
-    deleteTeam,
-} = require( "./controllers/teamsController" );
-const {
-    getLeagues,
-    getLeague,
-    createLeague,
-    updateLeague,
-    deleteLeague,
-} = require( "./controllers/leaguesController" );
-const {
-    getCountries,
-    getCountry,
-    createCountry,
-    updateCountry,
-    deleteCountry,
-} = require( "./controllers/countriesController" );
+const playerController = require( "./controllers/playersController" );
+const teamController = require( "./controllers/teamsController" );
+const leagueController = require( "./controllers/leaguesController" );
+const countryController = require( "./controllers/countriesController" );
 
 const app = express();
 const port = 4000;
@@ -46,32 +22,32 @@ app.use( bodyParser.urlencoded( {
 } ) );
 
 // Players routes
-app.get( "/api/players", getPlayers );
-app.get( "/api/players/:id", getPlayer );
-app.post( "/api/players", createPlayer );
-app.put( "/api/players/:id", updatePlayer );
-app.delete( "/api/players/:id", deletePlayer );
+app.get( "/api/players", playerController.getPlayers );
+app.get( "/api/players/:id", playerController.getPlayer );
+app.post( "/api/players", playerController.createPlayer );
+app.put( "/api/players/:id", playerController.updatePlayer );
+app.delete( "/api/players/:id", playerController.deletePlayer );
 
 // Teams routes
-app.get( "/api/teams", getTeams );
-app.get( "/api/teams/:id", getTeam );
-app.post( "/api/teams", createTeam );
-app.put( "/api/teams/:id", updateTeam );
-app.delete( "/api/teams/:id", deleteTeam );
+app.get( "/api/teams", teamController.getTeams );
+app.get( "/api/teams/:id", teamController.getTeam );
+app.post( "/api/teams", teamController.createTeam );
+app.put( "/api/teams/:id", teamController.updateTeam );
+app.delete( "/api/teams/:id", teamController.deleteTeam );
 
 // Leagues routes
-app.get( "/api/leagues", getLeagues );
-app.get( "/api/leagues/:id", getLeague );
-app.post( "/api/leagues", createLeague );
-app.put( "/api/leagues/:id", updateLeague );
-app.delete( "/api/leagues/:id", deleteLeague );
+app.get( "/api/leagues", leagueController.getLeagues );
+app.get( "/api/leagues/:id", leagueController.getLeague );
+app.post( "/api/leagues", leagueController.createLeague );
+app.put( "/api/leagues/:id", leagueController.updateLeague );
+app.delete( "/api/leagues/:id", leagueController.deleteLeague );
 
 // Countries routes
-app.get( "/api/countries", getCountries );
-app.get( "/api/countries/:id", getCountry );
-app.post( "/api/countries", createCountry );
-app.put( "/api/countries/:id", updateCountry );
-app.delete( "/api/countries/:id", deleteCountry );
+app.get( "/api/countries", countryController.getCountries );
+app.get( "/api/countries/:id", countryController.getCountry );
+app.post( "/api/countries", countryController.createCountry );
+app.put( "/api/countries/:id", countryController.updateCountry );
+app.delete( "/api/countries/:id", countryController.deleteCountry );
 
 app.listen( port, () => {
     console.log( "Listening to port:", port );

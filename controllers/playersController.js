@@ -2,19 +2,19 @@ const Joi = require( "joi" );
 const playersSchema = require( "../models/players" );
 const db = require( "../dataBases" ).db;
 
-exports.getPlayers = ( req, res ) => {
+const getPlayers = ( req, res ) => {
     db.players.find( {}, ( err, players ) => {
         res.send( { players } );
     } );
 };
 
-exports.getPlayer = ( req, res ) => {
-    db.players.find( { _id: req.params.id }, ( err, player ) => {
+const getPlayer = ( req, res ) => {
+    db.players.findOne( { _id: req.params.id }, ( err, player ) => {
         res.send( { player } );
     } );
 };
 
-exports.createPlayer = ( req, res ) => {
+const createPlayer = ( req, res ) => {
     const result = Joi.validate( req.body, playersSchema.schema );
     if ( result.error ) {
         res.send( {
@@ -32,7 +32,7 @@ exports.createPlayer = ( req, res ) => {
     } );
 };
 
-exports.updatePlayer = ( req, res ) => {
+const updatePlayer = ( req, res ) => {
     const result = Joi.validate( req.body, playersSchema.schema );
     if ( result.error ) {
         res.send( {
@@ -50,7 +50,7 @@ exports.updatePlayer = ( req, res ) => {
     } );
 };
 
-exports.deletePlayer = ( req, res ) => {
+const deletePlayer = ( req, res ) => {
     db.players.remove( { _id: req.params.id }, {}, ( err, player ) => {
         if ( err ) {
             res.send( { status: "error", error: err } );
@@ -58,4 +58,12 @@ exports.deletePlayer = ( req, res ) => {
         }
         res.send( { status: "success", payload: player } );
     } );
+};
+
+module.exports = {
+    getPlayer,
+    getPlayers,
+    createPlayer,
+    updatePlayer,
+    deletePlayer,
 };

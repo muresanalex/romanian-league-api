@@ -64,7 +64,7 @@ describe( "Leagues", () => {
         it( "it should post a league", ( done ) => {
             const league = {
                 name: "Liga I",
-                country: "Romania",
+                countryId: "asdf1",
             };
             chai.request( server )
                 .post( "/api/leagues" )
@@ -74,7 +74,7 @@ describe( "Leagues", () => {
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
-                    res.body.payload.should.have.property( "country" );
+                    res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "_id" );
                     done();
                 } );
@@ -84,7 +84,7 @@ describe( "Leagues", () => {
         it( "should GET a league by the given id", ( done ) => {
             const league = {
                 name: "Liga 1",
-                country: "Romania",
+                countryId: "asdf1",
             };
             let leagueId;
 
@@ -96,7 +96,7 @@ describe( "Leagues", () => {
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
-                    res.body.payload.should.have.property( "country" );
+                    res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "_id" );
                     leagueId = res.body.payload._id; // eslint-disable-line
                     done();
@@ -107,7 +107,7 @@ describe( "Leagues", () => {
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.leagues[ 0 ].should.have.property( "name" ).eql( "Liga 1" );
-                    res.body.leagues[ 0 ].should.have.property( "country" ).eql( "Romania" );
+                    res.body.leagues[ 0 ].should.have.property( "countryId" ).eql( "asdf1" );
                     res.body.leagues[ 0 ].should.have.property( "_id" ).eql( leagueId );
                     done();
                 } );
@@ -117,7 +117,7 @@ describe( "Leagues", () => {
         it( "it should UPDATE a league given the id", ( done ) => {
             const league = {
                 name: "Liga 1",
-                country: "Romania",
+                countryId: "asdf1",
             };
             let leagueId;
 
@@ -129,7 +129,7 @@ describe( "Leagues", () => {
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
-                    res.body.payload.should.have.property( "country" );
+                    res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "_id" );
                     leagueId = res.body.payload._id; // eslint-disable-line
                     done();
@@ -139,7 +139,7 @@ describe( "Leagues", () => {
                 .put( `/api/leagues/${ leagueId }` )
                 .send( {
                     name: "Liga I Betano",
-                    country: "Romania",
+                    countryId: "asdf1",
                 } )
                 .end( ( err, res ) => {
                     res.body.should.have.property( "status" ).eql( "success" );
@@ -152,7 +152,7 @@ describe( "Leagues", () => {
         it( "it should DELETE a league given the id", ( done ) => {
             const league = {
                 name: "Liga 1",
-                country: "Romania",
+                countryId: "asdf1",
             };
             let leagueId;
 
@@ -164,7 +164,7 @@ describe( "Leagues", () => {
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
-                    res.body.payload.should.have.property( "country" );
+                    res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "_id" );
                     leagueId = res.body.payload._id; // eslint-disable-line
                     done();

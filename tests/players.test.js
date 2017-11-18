@@ -9,11 +9,11 @@ const should = chai.should(); // eslint-disable-line
 
 const defaultPlayer = {
     name: "New Player",
-    country: "Romania",
+    countryId: "id1",
     dateOfBirth: new Date( "05/18/1992" ),
     height: 187,
     weight: 79,
-    teamId: 1,
+    teamId: "id2",
     position: "GK",
     jerseyNumber: 18,
     preferredFoot: "right",
@@ -81,11 +81,11 @@ describe( "Players", () => {
     describe( "/POST player", () => {
         it( "it should not post a player without name", ( done ) => {
             const player = {
-                country: "Romania",
+                countryId: "id1",
                 dateOfBirth: new Date( "05/18/1992" ),
                 height: 187,
                 weight: 79,
-                teamId: 1,
+                teamId: "id2",
                 position: "GK",
                 jerseyNumber: 18,
                 preferredFoot: "right",
@@ -148,7 +148,7 @@ describe( "Players", () => {
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
-                    res.body.payload.should.have.property( "country" );
+                    res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "dateOfBirth" );
                     res.body.payload.should.have.property( "height" );
                     res.body.payload.should.have.property( "weight" );
@@ -174,7 +174,7 @@ describe( "Players", () => {
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
-                    res.body.payload.should.have.property( "country" );
+                    res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "dateOfBirth" );
                     res.body.payload.should.have.property( "height" );
                     res.body.payload.should.have.property( "weight" );
@@ -192,11 +192,11 @@ describe( "Players", () => {
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
                     res.body.players[ 0 ].should.have.property( "name" ).eql( "New Player" );
-                    res.body.players[ 0 ].should.have.property( "country" ).eql( "Romania" );
+                    res.body.players[ 0 ].should.have.property( "countryId" ).eql( "id1" );
                     res.body.players[ 0 ].should.have.property( "dateOfBirth" ).eql( "18-5-1992" );
                     res.body.players[ 0 ].should.have.property( "height" ).eql( 187 );
                     res.body.players[ 0 ].should.have.property( "weight" ).eql( 79 );
-                    res.body.players[ 0 ].should.have.property( "teamId" ).eql( 1 );
+                    res.body.players[ 0 ].should.have.property( "teamId" ).eql( "id2" );
                     res.body.players[ 0 ].should.have.property( "position" ).eql( "GK" );
                     res.body.players[ 0 ].should.have.property( "jerseyNumber" ).eql( 18 );
                     res.body.players[ 0 ].should.have.property( "preferredFoot" ).eql( "right" );
@@ -217,7 +217,7 @@ describe( "Players", () => {
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
-                    res.body.payload.should.have.property( "country" );
+                    res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "dateOfBirth" );
                     res.body.payload.should.have.property( "height" );
                     res.body.payload.should.have.property( "weight" );
@@ -234,11 +234,11 @@ describe( "Players", () => {
                 .put( `/api/players/${ playerId }` )
                 .send( {
                     name: "Alex Muresan",
-                    country: "Romania",
+                    countryId: "id1",
                     dateOfBirth: new Date( "05/18/1992" ),
                     height: 187,
                     weight: 79,
-                    teamId: 1,
+                    teamId: "id2",
                     position: "GK",
                     jerseyNumber: 18,
                     preferredFoot: "right",
@@ -299,7 +299,7 @@ describe( "Players", () => {
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
                     res.body.payload.should.have.property( "name" );
-                    res.body.payload.should.have.property( "country" );
+                    res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "dateOfBirth" );
                     res.body.payload.should.have.property( "height" );
                     res.body.payload.should.have.property( "weight" );

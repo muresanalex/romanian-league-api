@@ -2,11 +2,11 @@ const Joi = require( "joi" );
 
 const schema = Joi.object().keys( {
     name: Joi.string().required(),
-    country: Joi.string().required(),
+    countryId: Joi.string().required(),
     dateOfBirth: Joi.date().min( "1-1-1967" ).required(),
     height: Joi.number().integer().min( 100 ).max( 250 ).required(),
     weight: Joi.number().integer().min( 40 ).max( 150 ).required(),
-    teamId: Joi.number().integer().required(),
+    teamId: Joi.string().required(),
     position: Joi.string().required(),
     jerseyNumber: Joi.number().integer().min( 1 ).max( 99 ).required(),
     preferredFoot: Joi.string().required(),

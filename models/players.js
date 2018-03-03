@@ -1,7 +1,8 @@
 const Joi = require( "joi" );
 
 const schema = Joi.object().keys( {
-    name: Joi.string().required(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
     countryId: Joi.string().required(),
     dateOfBirth: Joi.date().min( "1-1-1967" ).required(),
     height: Joi.number().integer().min( 100 ).max( 250 ).required(),
@@ -15,12 +16,12 @@ const schema = Joi.object().keys( {
     skillMoves: Joi.number().integer().min( 1 ).max( 5 ).required(),
     crossing: Joi.number().integer().min( 1 ).max( 99 ).required(),
     finishing: Joi.number().integer().min( 1 ).max( 99 ).required(),
-    headingAccuracy: Joi.number().integer().min( 1 ).max( 99 ).required(),
+    headingAcc: Joi.number().integer().min( 1 ).max( 99 ).required(),
     shortPassing: Joi.number().integer().min( 1 ).max( 99 ).required(),
     volleys: Joi.number().integer().min( 1 ).max( 99 ).required(),
     dribbling: Joi.number().integer().min( 1 ).max( 99 ).required(),
     curve: Joi.number().integer().min( 1 ).max( 99 ).required(),
-    freeKickAccuracy: Joi.number().integer().min( 1 ).max( 99 ).required(),
+    fkAccuracy: Joi.number().integer().min( 1 ).max( 99 ).required(),
     longPassing: Joi.number().integer().min( 1 ).max( 99 ).required(),
     ballControl: Joi.number().integer().min( 1 ).max( 99 ).required(),
     acceleration: Joi.number().integer().min( 1 ).max( 99 ).required(),
@@ -47,6 +48,7 @@ const schema = Joi.object().keys( {
     gkKicking: Joi.number().integer().min( 1 ).max( 99 ).required(),
     gkPositioning: Joi.number().integer().min( 1 ).max( 99 ).required(),
     gkReflexes: Joi.number().integer().min( 1 ).max( 99 ).required(),
+    potential: Joi.number().integer().min( 1 ).max( 99 ).required(),
 } );
 
 module.exports = { schema };

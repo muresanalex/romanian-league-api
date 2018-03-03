@@ -3,7 +3,7 @@ const teamsSchema = require( "../models/teams" );
 const db = require( "../dataBases" ).db;
 
 const getTeams = ( req, res ) => {
-    db.teams.find( {}, ( err, teams ) => {
+    db.teams.find( {} ).sort( { name: 1 } ).exec( ( err, teams ) => {
         res.send( { teams } );
     } );
 };

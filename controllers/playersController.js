@@ -3,7 +3,7 @@ const playersSchema = require( "../models/players" );
 const db = require( "../dataBases" ).db;
 
 const getPlayers = ( req, res ) => {
-    db.players.find( {}, ( err, players ) => {
+    db.players.find( {} ).sort( { name: 1 } ).exec( ( err, players ) => {
         res.send( { players } );
     } );
 };
@@ -17,6 +17,7 @@ const getPlayer = ( req, res ) => {
 const createPlayer = ( req, res ) => {
     const result = Joi.validate( req.body, playersSchema.schema );
     if ( result.error ) {
+        console.log( result.error );
         res.send( {
             status: "error",
             error: result.error,
@@ -25,9 +26,11 @@ const createPlayer = ( req, res ) => {
     }
     db.players.insert( req.body, ( err, player ) => {
         if ( err ) {
+            console.log( err );
             res.send( { status: "error", error: err } );
             return;
         }
+        console.log( player );
         res.send( { status: "success", payload: player } );
     } );
 };

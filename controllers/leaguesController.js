@@ -3,7 +3,7 @@ const leaguesSchema = require( "../models/leagues" );
 const db = require( "../dataBases" ).db;
 
 const getLeagues = ( req, res ) => {
-    db.leagues.find( {}, ( err, leagues ) => {
+    db.leagues.find( {} ).sort( { name: 1 } ).exec( ( err, leagues ) => {
         res.send( { leagues } );
     } );
 };
@@ -28,7 +28,7 @@ const createLeague = ( req, res ) => {
             res.send( { status: "error", error: err } );
             return;
         }
-        res.send( { status: "success", payload: league } );
+        res.json( { status: "success", payload: league } );
     } );
 };
 

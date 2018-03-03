@@ -8,7 +8,8 @@ const db = require( "../dataBases" ).db;
 const should = chai.should(); // eslint-disable-line
 
 const defaultPlayer = {
-    name: "New Player",
+    firstName: "New",
+    lastName: "Player",
     countryId: "id1",
     dateOfBirth: new Date( "05/18/1992" ),
     height: 187,
@@ -22,12 +23,12 @@ const defaultPlayer = {
     skillMoves: 1,
     crossing: 50,
     finishing: 50,
-    headingAccuracy: 50,
+    headingAcc: 50,
     shortPassing: 50,
     volleys: 50,
     dribbling: 50,
     curve: 50,
-    freeKickAccuracy: 50,
+    fkAccuracy: 50,
     longPassing: 50,
     ballControl: 50,
     acceleration: 50,
@@ -54,6 +55,7 @@ const defaultPlayer = {
     gkKicking: 50,
     gkPositioning: 50,
     gkReflexes: 50,
+    potential: 50,
 };
 
 chai.use( chaiHttp );
@@ -94,12 +96,12 @@ describe( "Players", () => {
                 skillMoves: 1,
                 crossing: 50,
                 finishing: 50,
-                headingAccuracy: 50,
+                headingAcc: 50,
                 shortPassing: 50,
                 volleys: 50,
                 dribbling: 50,
                 curve: 50,
-                freeKickAccuracy: 50,
+                fkAccuracy: 50,
                 longPassing: 50,
                 ballControl: 50,
                 acceleration: 50,
@@ -126,6 +128,7 @@ describe( "Players", () => {
                 gkKicking: 50,
                 gkPositioning: 50,
                 gkReflexes: 50,
+                potential: 50,
             };
             chai.request( server )
                 .post( "/api/players" )
@@ -147,7 +150,8 @@ describe( "Players", () => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
-                    res.body.payload.should.have.property( "name" );
+                    res.body.payload.should.have.property( "firstName" );
+                    res.body.payload.should.have.property( "lastName" );
                     res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "dateOfBirth" );
                     res.body.payload.should.have.property( "height" );
@@ -173,7 +177,8 @@ describe( "Players", () => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
-                    res.body.payload.should.have.property( "name" );
+                    res.body.payload.should.have.property( "firstName" );
+                    res.body.payload.should.have.property( "lastName" );
                     res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "dateOfBirth" );
                     res.body.payload.should.have.property( "height" );
@@ -191,7 +196,8 @@ describe( "Players", () => {
                 .get( `/api/players/${ playerId }` )
                 .end( ( err, res ) => {
                     res.should.have.status( 200 );
-                    res.body.players[ 0 ].should.have.property( "name" ).eql( "New Player" );
+                    res.body.players[ 0 ].should.have.property( "firstName" ).eql( "New" );
+                    res.body.players[ 0 ].should.have.property( "lastName" ).eql( "Player" );
                     res.body.players[ 0 ].should.have.property( "countryId" ).eql( "id1" );
                     res.body.players[ 0 ].should.have.property( "dateOfBirth" ).eql( "18-5-1992" );
                     res.body.players[ 0 ].should.have.property( "height" ).eql( 187 );
@@ -216,7 +222,8 @@ describe( "Players", () => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
-                    res.body.payload.should.have.property( "name" );
+                    res.body.payload.should.have.property( "firstName" );
+                    res.body.payload.should.have.property( "lastName" );
                     res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "dateOfBirth" );
                     res.body.payload.should.have.property( "height" );
@@ -233,7 +240,8 @@ describe( "Players", () => {
             chai.request( server )
                 .put( `/api/players/${ playerId }` )
                 .send( {
-                    name: "Alex Muresan",
+                    firstName: "Alex",
+                    lastName: "Muresan",
                     countryId: "id1",
                     dateOfBirth: new Date( "05/18/1992" ),
                     height: 187,
@@ -247,12 +255,12 @@ describe( "Players", () => {
                     skillMoves: 1,
                     crossing: 50,
                     finishing: 50,
-                    headingAccuracy: 50,
+                    headingAcc: 50,
                     shortPassing: 50,
                     volleys: 50,
                     dribbling: 50,
                     curve: 50,
-                    freeKickAccuracy: 50,
+                    fkAccuracy: 50,
                     longPassing: 50,
                     ballControl: 50,
                     acceleration: 50,
@@ -279,6 +287,7 @@ describe( "Players", () => {
                     gkKicking: 50,
                     gkPositioning: 50,
                     gkReflexes: 50,
+                    potential: 50,
                 } )
                 .end( ( err, res ) => {
                     res.body.should.have.property( "status" ).eql( "success" );
@@ -298,7 +307,8 @@ describe( "Players", () => {
                     res.should.have.status( 200 );
                     res.body.should.be.a( "object" );
                     res.body.should.have.property( "status" ).eql( "success" );
-                    res.body.payload.should.have.property( "name" );
+                    res.body.payload.should.have.property( "firstName" );
+                    res.body.payload.should.have.property( "lastName" );
                     res.body.payload.should.have.property( "countryId" );
                     res.body.payload.should.have.property( "dateOfBirth" );
                     res.body.payload.should.have.property( "height" );

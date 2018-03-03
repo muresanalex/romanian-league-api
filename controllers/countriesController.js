@@ -3,7 +3,12 @@ const countriesSchema = require( "../models/countries" );
 const db = require( "../dataBases" ).db;
 
 const getCountries = ( req, res ) => {
-    db.countries.find( { name: { $regex: new RegExp( req.query.search ) } } ).sort( { name: 1 } ).exec( ( err, countries ) => {
+    const findCondition = {
+        name: {
+            $regex: new RegExp( req.query.search ),
+        },
+    };
+    db.countries.find( findCondition ).sort( { name: 1 } ).exec( ( err, countries ) => {
         res.send( { countries } );
     } );
 };

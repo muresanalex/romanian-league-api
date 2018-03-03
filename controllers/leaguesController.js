@@ -3,7 +3,12 @@ const leaguesSchema = require( "../models/leagues" );
 const db = require( "../dataBases" ).db;
 
 const getLeagues = ( req, res ) => {
-    db.leagues.find( { name: { $regex: new RegExp( req.query.search ) } } ).sort( { name: 1 } ).exec( ( err, leagues ) => {
+    const findCondition = {
+        name: {
+            $regex: new RegExp( req.query.search ),
+        },
+    };
+    db.leagues.find( findCondition ).sort( { name: 1 } ).exec( ( err, leagues ) => {
         res.send( { leagues } );
     } );
 };

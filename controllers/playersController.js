@@ -3,7 +3,17 @@ const playersSchema = require( "../models/players" );
 const db = require( "../dataBases" ).db;
 
 const getPlayers = ( req, res ) => {
-    db.players.find( { name: { $regex: new RegExp( req.query.search ) } } ).sort( { name: 1 } ).exec( ( err, players ) => {
+    const findCondition = {
+        $or: [
+            {
+                lastName: { $regex: new RegExp( req.query.search ) },
+            },
+            {
+                firstName: { $regex: new RegExp( req.query.search ) },
+            },
+        ],
+    };
+    db.players.find( findCondition ).sort( { name: 1 } ).exec( ( err, players ) => {
         res.send( { players } );
     } );
 };

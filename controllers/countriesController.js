@@ -3,7 +3,7 @@ const countriesSchema = require( "../models/countries" );
 const db = require( "../dataBases" ).db;
 
 const getCountries = ( req, res ) => {
-    db.countries.find( {} ).sort( { name: 1 } ).exec( ( err, countries ) => {
+    db.countries.find( { name: { $regex: new RegExp( req.query.search ) } } ).sort( { name: 1 } ).exec( ( err, countries ) => {
         res.send( { countries } );
     } );
 };

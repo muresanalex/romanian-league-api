@@ -3,7 +3,7 @@ const teamsSchema = require( "../models/teams" );
 const db = require( "../dataBases" ).db;
 
 const getTeams = ( req, res ) => {
-    db.teams.find( {} ).sort( { name: 1 } ).exec( ( err, teams ) => {
+    db.teams.find( { name: { $regex: new RegExp( req.query.search ) } } ).sort( { name: 1 } ).exec( ( err, teams ) => {
         res.send( { teams } );
     } );
 };

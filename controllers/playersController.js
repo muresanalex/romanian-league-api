@@ -14,7 +14,7 @@ const getPlayers = ( req, res ) => {
         ],
     };
     db.players.find( findCondition ).sort( { name: 1 } ).exec( ( err, players ) => {
-        res.send( { players } );
+        res.send( { data: players } );
     } );
 };
 

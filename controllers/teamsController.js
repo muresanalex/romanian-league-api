@@ -9,7 +9,7 @@ const getTeams = ( req, res ) => {
         },
     };
     db.teams.find( findCondition ).sort( { name: 1 } ).exec( ( err, teams ) => {
-        res.send( { teams } );
+        res.send( { data: teams } );
     } );
 };
 

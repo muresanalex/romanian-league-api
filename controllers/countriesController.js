@@ -3,14 +3,30 @@ const countriesSchema = require( "../models/countries" );
 const db = require( "../dataBases" ).db;
 
 const getCountries = ( req, res ) => {
+    const { page } = req.query;
+    const itemsPerPage = 10;
     const findCondition = {
         name: {
             $regex: new RegExp( req.query.search ),
         },
     };
-    db.countries.find( findCondition ).sort( { name: 1 } ).exec( ( err, countries ) => {
-        res.send( { countries } );
-    } );
+
+    if ( !isNaN( page ) ) {
+        let numberOfPages = 0;
+
+        db.countries.count( {}, ( err, count ) => {
+            const integer = parseInt( count / itemsPerPage, 10 );
+            numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
+        } );
+
+        db.countries.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage ).exec( ( err, countries ) => {
+            res.send( { data: countries, numberOfPages } );
+        } );
+    } else {
+        db.countries.find( findCondition ).sort( { name: 1 } ).exec( ( err, countries ) => {
+            res.send( { data: countries } );
+        } );
+    }
 };
 
 const getCountry = ( req, res ) => {

@@ -9,7 +9,7 @@ const getLeagues = ( req, res ) => {
         },
     };
     db.leagues.find( findCondition ).sort( { name: 1 } ).exec( ( err, leagues ) => {
-        res.send( { leagues } );
+        res.send( { data: leagues } );
     } );
 };
 

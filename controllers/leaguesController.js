@@ -3,14 +3,31 @@ const leaguesSchema = require( "../models/leagues" );
 const db = require( "../dataBases" ).db;
 
 const getLeagues = ( req, res ) => {
+    const { page } = req.query;
+    const itemsPerPage = 10;
     const findCondition = {
         name: {
             $regex: new RegExp( req.query.search ),
         },
     };
-    db.leagues.find( findCondition ).sort( { name: 1 } ).exec( ( err, leagues ) => {
-        res.send( { data: leagues } );
-    } );
+
+    if ( !isNaN( page ) ) {
+        let numberOfPages = 0;
+
+        db.leagues.count( {}, ( err, count ) => {
+            const integer = parseInt( count / itemsPerPage, 10 );
+            numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
+        } );
+
+        db.leagues.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
+            .exec( ( err, leagues ) => {
+                res.send( { data: leagues, numberOfPages } );
+            } );
+    } else {
+        db.leagues.find( findCondition ).sort( { name: 1 } ).exec( ( err, leagues ) => {
+            res.send( { data: leagues } );
+        } );
+    }
 };
 
 const getLeague = ( req, res ) => {

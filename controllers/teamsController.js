@@ -3,14 +3,31 @@ const teamsSchema = require( "../models/teams" );
 const db = require( "../dataBases" ).db;
 
 const getTeams = ( req, res ) => {
+    const { page } = req.query;
+    const itemsPerPage = 10;
     const findCondition = {
         name: {
             $regex: new RegExp( req.query.search ),
         },
     };
-    db.teams.find( findCondition ).sort( { name: 1 } ).exec( ( err, teams ) => {
-        res.send( { data: teams } );
-    } );
+
+    if ( !isNaN( page ) ) {
+        let numberOfPages = 0;
+
+        db.teams.count( {}, ( err, count ) => {
+            const integer = parseInt( count / itemsPerPage, 10 );
+            numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
+        } );
+
+        db.teams.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
+            .exec( ( err, teams ) => {
+                res.send( { data: teams, numberOfPages } );
+            } );
+    } else {
+        db.teams.find( findCondition ).sort( { name: 1 } ).exec( ( err, teams ) => {
+            res.send( { data: teams } );
+        } );
+    }
 };
 
 const getTeam = ( req, res ) => {

@@ -19,9 +19,10 @@ const getCountries = ( req, res ) => {
             numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
         } );
 
-        db.countries.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage ).exec( ( err, countries ) => {
-            res.send( { data: countries, numberOfPages } );
-        } );
+        db.countries.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
+            .exec( ( err, countries ) => {
+                res.send( { data: countries, numberOfPages } );
+            } );
     } else {
         db.countries.find( findCondition ).sort( { name: 1 } ).exec( ( err, countries ) => {
             res.send( { data: countries } );

@@ -24,7 +24,7 @@ const getPlayers = ( req, res ) => {
             numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
         } );
 
-        db.players.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
+        db.players.find( {} ).sort( { firstName: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
             .exec( ( err, players ) => {
                 res.send( { data: players, numberOfPages } );
             } );

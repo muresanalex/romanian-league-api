@@ -21,6 +21,24 @@ app.use( bodyParser.urlencoded( {
     extended: true,
 } ) );
 
+app.use( ( req, res, next ) => {
+    res.header( "Access-Control-Allow-Origin", "*" );
+    res.header( "Access-Control-Allow-Methods", "GET, PUT, POST, DELETE" );
+    res.header( "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept" );
+    next();
+} );
+
+app.use( function( req, res, next ) {
+    if ( req.is( "text/*" ) ) {
+        req.text = "";
+        req.setEncoding( "utf8" );
+        req.on( "data", function( chunk ) { req.text += chunk; } );
+        req.on( "end", next );
+    } else {
+        next();
+    }
+} );
+
 // Players routes
 app.get( "/api/players", playerController.getPlayers );
 app.get( "/api/players/:id", playerController.getPlayer );

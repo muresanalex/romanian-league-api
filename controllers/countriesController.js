@@ -21,64 +21,66 @@ const getCountries = ( req, res ) => {
 
         db.countries.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
             .exec( ( err, countries ) => {
-                res.send( { data: countries, numberOfPages } );
+                res.json( { data: countries, numberOfPages } );
             } );
     } else {
         db.countries.find( findCondition ).sort( { name: 1 } ).exec( ( err, countries ) => {
-            res.send( { data: countries } );
+            res.json( { data: countries } );
         } );
     }
 };
 
 const getCountry = ( req, res ) => {
     db.countries.findOne( { _id: req.params.id }, ( err, country ) => {
-        res.send( { country } );
+        res.json( { country } );
     } );
 };
 
 const createCountry = ( req, res ) => {
-    const result = Joi.validate( req.body, countriesSchema.schema );
+    const country = JSON.parse( req.text );
+    const result = Joi.validate( country, countriesSchema.schema );
     if ( result.error ) {
-        res.send( {
+        res.json( {
             status: "error",
             error: result.error,
         } );
         return;
     }
-    db.countries.insert( req.body, ( err, country ) => {
+    db.countries.insert( country, ( err ) => {
         if ( err ) {
-            res.send( { status: "error", error: err } );
+            res.json( { status: "error", error: err } );
             return;
         }
-        res.send( { status: "success", payload: country } );
+        res.json( { status: "success", message: "Country saved!" } );
     } );
 };
 
 const updateCountry = ( req, res ) => {
-    const result = Joi.validate( req.body, countriesSchema.schema );
+    const country = JSON.parse( req.text );
+    const result = Joi.validate( country, countriesSchema.schema );
     if ( result.error ) {
-        res.send( {
+        res.json( {
             status: "error",
             error: result.error,
         } );
         return;
     }
-    db.countries.update( { _id: req.params.id }, req.body, ( err, country ) => {
+    db.countries.update( { _id: req.params.id }, country, ( err ) => {
         if ( err ) {
-            res.send( { status: "error", error: err } );
+            res.json( { status: "error", error: err } );
             return;
         }
-        res.send( { status: "success", payload: country } );
+        res.json( { status: "success", message: "Country successfully updated!" } );
     } );
 };
 
 const deleteCountry = ( req, res ) => {
-    db.countries.remove( { _id: req.params.id }, {}, ( err, country ) => {
+    db.countries.remove( { _id: req.params.id }, {}, ( err ) => {
         if ( err ) {
-            res.send( { status: "error", error: err } );
+            res.json( { status: "error", error: err } );
             return;
         }
-        res.send( { status: "success", payload: country } );
+        res.json( { status: "success", message: "Country removed!" } );
     } );
 };
 

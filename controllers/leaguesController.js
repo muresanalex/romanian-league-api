@@ -7,7 +7,7 @@ const getLeagues = ( req, res ) => {
     const itemsPerPage = 10;
     const findCondition = {
         name: {
-            $regex: new RegExp( req.query.search ),
+            $regex: new RegExp( req.query.search, "i" ),
         },
     };
 
@@ -21,64 +21,64 @@ const getLeagues = ( req, res ) => {
 
         db.leagues.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
             .exec( ( err, leagues ) => {
-                res.send( { data: leagues, numberOfPages } );
+                res.json( { data: leagues, numberOfPages } );
             } );
     } else {
         db.leagues.find( findCondition ).sort( { name: 1 } ).exec( ( err, leagues ) => {
-            res.send( { data: leagues } );
+            res.json( { data: leagues } );
         } );
     }
 };
 
 const getLeague = ( req, res ) => {
     db.leagues.findOne( { _id: req.params.id }, ( err, league ) => {
-        res.send( { league } );
+        res.json( { league } );
     } );
 };
 
 const createLeague = ( req, res ) => {
     const result = Joi.validate( req.body, leaguesSchema.schema );
     if ( result.error ) {
-        res.send( {
+        res.json( {
             status: "error",
             error: result.error,
         } );
         return;
     }
-    db.leagues.insert( req.body, ( err, league ) => {
+    db.leagues.insert( req.body, ( err ) => {
         if ( err ) {
-            res.send( { status: "error", error: err } );
+            res.json( { status: "error", error: err } );
             return;
         }
-        res.json( { status: "success", payload: league } );
+        res.json( { status: "success", message: "League created!" } );
     } );
 };
 
 const updateLeague = ( req, res ) => {
     const result = Joi.validate( req.body, leaguesSchema.schema );
     if ( result.error ) {
-        res.send( {
+        res.json( {
             status: "error",
             error: result.error,
         } );
         return;
     }
-    db.leagues.update( { _id: req.params.id }, req.body, ( err, league ) => {
+    db.leagues.update( { _id: req.params.id }, req.body, ( err ) => {
         if ( err ) {
-            res.send( { status: "error", error: err } );
+            res.json( { status: "error", error: err } );
             return;
         }
-        res.send( { status: "success", payload: league } );
+        res.json( { status: "success", message: "League successfully updated!" } );
     } );
 };
 
 const deleteLeague = ( req, res ) => {
-    db.leagues.remove( { _id: req.params.id }, {}, ( err, league ) => {
+    db.leagues.remove( { _id: req.params.id }, {}, ( err ) => {
         if ( err ) {
-            res.send( { status: "error", error: err } );
+            res.json( { status: "error", error: err } );
             return;
         }
-        res.send( { status: "success", payload: league } );
+        res.json( { status: "success", message: "League deleted!" } );
     } );
 };
 

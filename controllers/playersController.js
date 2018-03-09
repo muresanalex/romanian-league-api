@@ -8,10 +8,10 @@ const getPlayers = ( req, res ) => {
     const findCondition = {
         $or: [
             {
-                lastName: { $regex: new RegExp( req.query.search ) },
+                lastName: { $regex: new RegExp( req.query.search, "i" ) },
             },
             {
-                firstName: { $regex: new RegExp( req.query.search ) },
+                firstName: { $regex: new RegExp( req.query.search, "i" ) },
             },
         ],
     };
@@ -26,64 +26,64 @@ const getPlayers = ( req, res ) => {
 
         db.players.find( {} ).sort( { firstName: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
             .exec( ( err, players ) => {
-                res.send( { data: players, numberOfPages } );
+                res.json( { data: players, numberOfPages } );
             } );
     } else {
         db.players.find( findCondition ).sort( { name: 1 } ).exec( ( err, players ) => {
-            res.send( { data: players } );
+            res.json( { data: players } );
         } );
     }
 };
 
 const getPlayer = ( req, res ) => {
     db.players.findOne( { _id: req.params.id }, ( err, player ) => {
-        res.send( { player } );
+        res.json( { player } );
     } );
 };
 
 const createPlayer = ( req, res ) => {
     const result = Joi.validate( req.body, playersSchema.schema );
     if ( result.error ) {
-        res.send( {
+        res.json( {
             status: "error",
             error: result.error,
         } );
         return;
     }
-    db.players.insert( req.body, ( err, player ) => {
+    db.players.insert( req.body, ( err ) => {
         if ( err ) {
-            res.send( { status: "error", error: err } );
+            res.json( { status: "error", error: err } );
             return;
         }
-        res.send( { status: "success", payload: player } );
+        res.json( { status: "success", message: "Player created!" } );
     } );
 };
 
 const updatePlayer = ( req, res ) => {
     const result = Joi.validate( req.body, playersSchema.schema );
     if ( result.error ) {
-        res.send( {
+        res.json( {
             status: "error",
             error: result.error,
         } );
         return;
     }
-    db.players.update( { _id: req.params.id }, req.body, ( err, player ) => {
+    db.players.update( { _id: req.params.id }, req.body, ( err ) => {
         if ( err ) {
-            res.send( { status: "error", error: err } );
+            res.json( { status: "error", error: err } );
             return;
         }
-        res.send( { status: "success", payload: player } );
+        res.json( { status: "success", message: "Player successfully updated!" } );
     } );
 };
 
 const deletePlayer = ( req, res ) => {
-    db.players.remove( { _id: req.params.id }, {}, ( err, player ) => {
+    db.players.remove( { _id: req.params.id }, {}, ( err ) => {
         if ( err ) {
-            res.send( { status: "error", error: err } );
+            res.json( { status: "error", error: err } );
             return;
         }
-        res.send( { status: "success", payload: player } );
+        res.json( { status: "success", message: "Player deleted!" } );
     } );
 };
 

@@ -7,7 +7,7 @@ const getCountries = ( req, res ) => {
     const itemsPerPage = 10;
     const findCondition = {
         name: {
-            $regex: new RegExp( req.query.search ),
+            $regex: new RegExp( req.query.search, "i" ),
         },
     };
 
@@ -37,8 +37,7 @@ const getCountry = ( req, res ) => {
 };
 
 const createCountry = ( req, res ) => {
-    const country = JSON.parse( req.text );
-    const result = Joi.validate( country, countriesSchema.schema );
+    const result = Joi.validate( req.body, countriesSchema.schema );
     if ( result.error ) {
         res.json( {
             status: "error",
@@ -46,7 +45,7 @@ const createCountry = ( req, res ) => {
         } );
         return;
     }
-    db.countries.insert( country, ( err ) => {
+    db.countries.insert( req.body, ( err ) => {
         if ( err ) {
             res.json( { status: "error", error: err } );
             return;
@@ -56,8 +55,7 @@ const createCountry = ( req, res ) => {
 };
 
 const updateCountry = ( req, res ) => {
-    const country = JSON.parse( req.text );
-    const result = Joi.validate( country, countriesSchema.schema );
+    const result = Joi.validate( req.body, countriesSchema.schema );
     if ( result.error ) {
         res.json( {
             status: "error",
@@ -65,7 +63,7 @@ const updateCountry = ( req, res ) => {
         } );
         return;
     }
-    db.countries.update( { _id: req.params.id }, country, ( err ) => {
+    db.countries.update( { _id: req.params.id }, req.body, ( err ) => {
         if ( err ) {
             res.json( { status: "error", error: err } );
             return;

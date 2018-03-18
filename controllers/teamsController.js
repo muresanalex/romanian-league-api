@@ -5,21 +5,25 @@ const db = require( "../dataBases" ).db;
 const getTeams = ( req, res ) => {
     const { page } = req.query;
     const itemsPerPage = 10;
-    const findCondition = {
+    const nameCondition = {
         name: {
             $regex: new RegExp( req.query.search, "i" ),
         },
     };
+    const leagueIdCondition = {
+        leagueId: req.query.id,
+    };
+    const findCondition = req.query.id ? leagueIdCondition : nameCondition;
 
     if ( !isNaN( page ) ) {
         let numberOfPages = 0;
 
-        db.teams.count( {}, ( err, count ) => {
+        db.teams.count( findCondition, ( err, count ) => {
             const integer = parseInt( count / itemsPerPage, 10 );
             numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
         } );
 
-        db.teams.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
+        db.teams.find( findCondition ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
             .exec( ( err, teams ) => {
                 res.json( { data: teams, numberOfPages } );
             } );

@@ -5,7 +5,7 @@ const db = require( "../dataBases" ).db;
 const getPlayers = ( req, res ) => {
     const { page } = req.query;
     const itemsPerPage = 10;
-    const findCondition = {
+    const nameCondition = {
         $or: [
             {
                 lastName: { $regex: new RegExp( req.query.search, "i" ) },
@@ -15,16 +15,20 @@ const getPlayers = ( req, res ) => {
             },
         ],
     };
+    const teamIdCondition = {
+        teamId: req.query.id,
+    };
+    const findCondition = req.query.id ? teamIdCondition : nameCondition;
 
     if ( !isNaN( page ) ) {
         let numberOfPages = 0;
 
-        db.players.count( {}, ( err, count ) => {
+        db.players.count( findCondition, ( err, count ) => {
             const integer = parseInt( count / itemsPerPage, 10 );
             numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
         } );
 
-        db.players.find( {} ).sort( { firstName: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
+        db.players.find( findCondition ).sort( { firstName: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
             .exec( ( err, players ) => {
                 res.json( { data: players, numberOfPages } );
             } );

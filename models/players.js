@@ -49,6 +49,7 @@ const schema = Joi.object().keys( {
     gkPositioning: Joi.number().integer().min( 1 ).max( 99 ).required(),
     gkReflexes: Joi.number().integer().min( 1 ).max( 99 ).required(),
     potential: Joi.number().integer().min( 1 ).max( 99 ).required(),
+    overall: Joi.number().integer().min( 1 ).max( 99 ),
 } );
 
 module.exports = { schema };

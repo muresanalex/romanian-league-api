@@ -2,7 +2,7 @@ const path = require( "path" );
 const Datastore = require( "nedb" );
 
 const db = {};
-const basePath = process.env.NODE_ENV === "test" ? "/db/mockDB" : "/db";
+const basePath = process.env.NODE_ENV === "test" ? "../romanian-league-db/mockDB" : "../romanian-league-db";
 
 db.players = new Datastore( {
     filename: `${ path.join( __dirname, basePath, "/players.db" ) }`,

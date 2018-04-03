@@ -6,6 +6,7 @@ const schema = Joi.object().keys( {
     leagueId: Joi.string().required(),
     stadium: Joi.string(),
     coach: Joi.string(),
+    image: Joi.string(),
 } );
 
 module.exports = { schema };

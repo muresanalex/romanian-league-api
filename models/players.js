@@ -91,7 +91,7 @@ const schema = Joi.object().keys( {
     potential: Joi.number().integer().min( 1 ).max( 99 )
         .required(),
     overall: Joi.number().integer().min( 1 ).max( 99 ),
-    image: Joi.string(),
+    image: Joi.string().allow( "" ).optional(),
 } );
 
 module.exports = { schema };

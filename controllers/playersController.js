@@ -6,14 +6,7 @@ const getPlayers = ( req, res ) => {
     const { page } = req.query;
     const itemsPerPage = 10;
     const nameCondition = {
-        $or: [
-            {
-                lastName: { $regex: new RegExp( req.query.search, "i" ) },
-            },
-            {
-                firstName: { $regex: new RegExp( req.query.search, "i" ) },
-            },
-        ],
+        fullName: { $regex: new RegExp( req.query.search, "i" ) },
     };
     const teamIdCondition = {
         teamId: req.query.id,
@@ -28,14 +21,21 @@ const getPlayers = ( req, res ) => {
             numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
         } );
 
-        db.players.find( findCondition ).sort( { firstName: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
+        db.players
+            .find( findCondition )
+            .sort( { firstName: 1 } )
+            .skip( ( page - 1 ) * itemsPerPage )
+            .limit( itemsPerPage )
             .exec( ( err, players ) => {
                 res.json( { data: players, numberOfPages } );
             } );
     } else {
-        db.players.find( findCondition ).sort( { name: 1 } ).exec( ( err, players ) => {
-            res.json( { data: players } );
-        } );
+        db.players
+            .find( findCondition )
+            .sort( { name: 1 } )
+            .exec( ( err, players ) => {
+                res.json( { data: players } );
+            } );
     }
 };
 
@@ -54,7 +54,7 @@ const createPlayer = ( req, res ) => {
         } );
         return;
     }
-    db.players.insert( req.body, ( err ) => {
+    db.players.insert( req.body, err => {
         if ( err ) {
             res.json( { status: "error", error: err } );
             return;
@@ -72,7 +72,7 @@ const updatePlayer = ( req, res ) => {
         } );
         return;
     }
-    db.players.update( { _id: req.params.id }, req.body, ( err ) => {
+    db.players.update( { _id: req.params.id }, req.body, err => {
         if ( err ) {
             res.json( { status: "error", error: err } );
             return;
@@ -82,7 +82,7 @@ const updatePlayer = ( req, res ) => {
 };
 
 const deletePlayer = ( req, res ) => {
-    db.players.remove( { _id: req.params.id }, {}, ( err ) => {
+    db.players.remove( { _id: req.params.id }, {}, err => {
         if ( err ) {
             res.json( { status: "error", error: err } );
             return;

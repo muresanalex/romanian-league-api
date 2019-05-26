@@ -1,26 +1,33 @@
 const express = require( "express" );
 const bodyParser = require( "body-parser" );
 const cors = require( "cors" );
+const dotenv = require( "dotenv" );
 
 const playerController = require( "./controllers/playersController" );
 const teamController = require( "./controllers/teamsController" );
 const leagueController = require( "./controllers/leaguesController" );
 const countryController = require( "./controllers/countriesController" );
 
+dotenv.config();
 const app = express();
+const baseAppUrl = process.env.BASE_APP_URL;
 const port = 4000;
 
-app.use( bodyParser.json( {
-    limit: "50mb",
-} ) );
+app.use(
+    bodyParser.json( {
+        limit: "50mb",
+    } ),
+);
 
-app.use( bodyParser.urlencoded( {
-    limit: "50mb",
-    extended: true,
-} ) );
+app.use(
+    bodyParser.urlencoded( {
+        limit: "50mb",
+        extended: true,
+    } ),
+);
 
 app.use( ( req, res, next ) => {
-    res.header( "Access-Control-Allow-Origin", "http://localhost:8080" );
+    res.header( "Access-Control-Allow-Origin", baseAppUrl );
     res.header( "Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS" );
     res.header( "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept" );
 

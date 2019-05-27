@@ -10,7 +10,6 @@ const countryController = require( "./controllers/countriesController" );
 
 dotenv.config();
 const app = express();
-const baseAppUrl = process.env.BASE_APP_URL;
 const port = 4000;
 
 app.use(
@@ -27,7 +26,7 @@ app.use(
 );
 
 app.use( ( req, res, next ) => {
-    res.header( "Access-Control-Allow-Origin", baseAppUrl );
+    res.header( "Access-Control-Allow-Origin", "*" );
     res.header( "Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS" );
     res.header( "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept" );
 

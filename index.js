@@ -8,7 +8,7 @@ const teamController = require( "./controllers/teamsController" );
 const leagueController = require( "./controllers/leaguesController" );
 const countryController = require( "./controllers/countriesController" );
 
-const baseUrl = process.env.NODE_ENV === "production" ? "" : "/api";
+const baseUrl = process.env.NODE_ENV !== "production" ? "/api" : "";
 
 dotenv.config();
 const app = express();

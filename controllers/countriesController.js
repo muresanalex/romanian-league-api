@@ -25,14 +25,14 @@ const getCountries = ( req, res ) => {
             .skip( ( page - 1 ) * itemsPerPage )
             .limit( itemsPerPage )
             .exec( ( err, countries ) => {
-                res.send( { data: countries, numberOfPages } );
+                res.json( { data: countries, numberOfPages } );
             } );
     } else {
         db.countries
             .find( findCondition )
             .sort( { name: 1 } )
             .exec( ( err, countries ) => {
-                res.send( { data: countries } );
+                res.json( { data: countries } );
             } );
     }
 };

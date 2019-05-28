@@ -1,29 +1,30 @@
 {
-  "name": "romanian-fotball-league",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon index",
-    "test": "mocha --timeout 10000 ./tests/"
-  },
-  "keywords": [],
-  "author": "Alex Muresan",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.17.2",
-    "cors": "^2.8.4",
-    "dotenv": "^8.0.0",
-    "express": "^4.15.4",
-    "joi": "^11.1.1",
-    "nedb": "^1.8.0"
-  },
-  "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
-    "eslint": "^4.4.1",
-    "eslint-config-fortech": "^1.0.1",
-    "mocha": "^4.0.1",
-    "nodemon": "^1.11.0"
-  }
+    "name": "romanian-fotball-league",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon index",
+        "prod": "NODE_ENV=production nodemon index",
+        "test": "mocha --timeout 10000 ./tests/"
+    },
+    "keywords": [],
+    "author": "Alex Muresan",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.17.2",
+        "cors": "^2.8.4",
+        "dotenv": "^8.0.0",
+        "express": "^4.15.4",
+        "joi": "^11.1.1",
+        "nedb": "^1.8.0"
+    },
+    "devDependencies": {
+        "chai": "^4.1.2",
+        "chai-http": "^3.0.0",
+        "eslint": "^4.4.1",
+        "eslint-config-fortech": "^1.0.1",
+        "mocha": "^4.0.1",
+        "nodemon": "^1.11.0"
+    }
 }

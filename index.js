@@ -42,6 +42,9 @@ app.use( ( req, res, next ) => {
 
 const baseUrl = process.env.NODE_ENV === "production" ? "" : "/api";
 
+app.get( "/", ( req, res ) => {
+    res.send( process.env.NODE_ENV );
+} );
 // Players routes
 app.options( `${ baseUrl }/players/:id`, cors() );
 app.get( `${ baseUrl }/players`, playerController.getPlayers );

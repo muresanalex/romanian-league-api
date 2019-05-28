@@ -47,7 +47,7 @@ const getPlayers = ( req, res ) => {
 
 // Players routes
 app.options( "/api/players/:id", cors() );
-app.get( "/api/players", getPlayers );
+app.get( "/api", getPlayers );
 app.get( "/api/players/:id", playerController.getPlayer );
 app.post( "/api/players", playerController.createPlayer );
 app.put( "/api/players/:id", cors(), playerController.updatePlayer );

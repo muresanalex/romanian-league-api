@@ -40,6 +40,10 @@ app.use( ( req, res, next ) => {
     }
 } );
 
+app.get( "/", function( req, res ) {
+    res.send( "Hello World!" );
+} );
+
 // Players routes
 app.options( "/api/players/:id", cors() );
 app.get( "/api/players", playerController.getPlayers );

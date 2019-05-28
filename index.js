@@ -66,14 +66,14 @@ const getPlayers = ( req, res ) => {
             .skip( ( page - 1 ) * itemsPerPage )
             .limit( itemsPerPage )
             .exec( ( err, players ) => {
-                res.json( { data: players, numberOfPages } );
+                res.send( { data: players, numberOfPages } );
             } );
     } else {
         db.players
             .find( findCondition )
             .sort( { name: 1 } )
             .exec( ( err, players ) => {
-                res.json( { data: players } );
+                res.send( { data: players } );
             } );
     }
 };

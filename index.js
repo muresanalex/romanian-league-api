@@ -2,6 +2,7 @@ const express = require( "express" );
 const bodyParser = require( "body-parser" );
 const cors = require( "cors" );
 const dotenv = require( "dotenv" );
+const db = require( "./dataBases" ).db;
 
 const playerController = require( "./controllers/playersController" );
 const teamController = require( "./controllers/teamsController" );
@@ -40,13 +41,46 @@ app.use( ( req, res, next ) => {
     }
 } );
 
-app.get( "/", function( req, res ) {
-    res.send( "Hello World!" );
-} );
+const getPlayers = ( req, res ) => {
+    const { page } = req.query;
+    const itemsPerPage = 10;
+    const nameCondition = {
+        fullName: { $regex: new RegExp( req.query.search, "i" ) },
+    };
+    const teamIdCondition = {
+        teamId: req.query.id,
+    };
+    const findCondition = req.query.id ? teamIdCondition : nameCondition;
+
+    if ( !isNaN( page ) ) {
+        let numberOfPages = 0;
+
+        db.players.count( findCondition, ( err, count ) => {
+            const integer = parseInt( count / itemsPerPage, 10 );
+            numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
+        } );
+
+        db.players
+            .find( findCondition )
+            .sort( { firstName: 1 } )
+            .skip( ( page - 1 ) * itemsPerPage )
+            .limit( itemsPerPage )
+            .exec( ( err, players ) => {
+                res.json( { data: players, numberOfPages } );
+            } );
+    } else {
+        db.players
+            .find( findCondition )
+            .sort( { name: 1 } )
+            .exec( ( err, players ) => {
+                res.json( { data: players } );
+            } );
+    }
+};
 
 // Players routes
 app.options( "/api/players/:id", cors() );
-app.get( "/api/players", playerController.getPlayers );
+app.get( "/api/players", getPlayers );
 app.get( "/api/players/:id", playerController.getPlayer );
 app.post( "/api/players", playerController.createPlayer );
 app.put( "/api/players/:id", cors(), playerController.updatePlayer );

@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "nodemon index",
-        "prod": "export NODE_ENV=production && nodemon index",
+        "prod": "NODE_ENV=production nodemon index",
         "test": "mocha --timeout 10000 ./tests/"
     },
     "keywords": [],

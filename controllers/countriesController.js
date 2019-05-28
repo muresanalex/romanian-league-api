@@ -19,14 +19,21 @@ const getCountries = ( req, res ) => {
             numberOfPages = count % itemsPerPage > 0 ? integer + 1 : integer;
         } );
 
-        db.countries.find( {} ).sort( { name: 1 } ).skip( ( page - 1 ) * itemsPerPage ).limit( itemsPerPage )
+        db.countries
+            .find( {} )
+            .sort( { name: 1 } )
+            .skip( ( page - 1 ) * itemsPerPage )
+            .limit( itemsPerPage )
             .exec( ( err, countries ) => {
-                res.json( { data: countries, numberOfPages } );
+                res.send( { data: countries, numberOfPages } );
             } );
     } else {
-        db.countries.find( findCondition ).sort( { name: 1 } ).exec( ( err, countries ) => {
-            res.json( { data: countries } );
-        } );
+        db.countries
+            .find( findCondition )
+            .sort( { name: 1 } )
+            .exec( ( err, countries ) => {
+                res.send( { data: countries } );
+            } );
     }
 };
 
@@ -45,7 +52,7 @@ const createCountry = ( req, res ) => {
         } );
         return;
     }
-    db.countries.insert( req.body, ( err ) => {
+    db.countries.insert( req.body, err => {
         if ( err ) {
             res.json( { status: "error", error: err } );
             return;
@@ -63,7 +70,7 @@ const updateCountry = ( req, res ) => {
         } );
         return;
     }
-    db.countries.update( { _id: req.params.id }, req.body, ( err ) => {
+    db.countries.update( { _id: req.params.id }, req.body, err => {
         if ( err ) {
             res.json( { status: "error", error: err } );
             return;
@@ -73,7 +80,7 @@ const updateCountry = ( req, res ) => {
 };
 
 const deleteCountry = ( req, res ) => {
-    db.countries.remove( { _id: req.params.id }, {}, ( err ) => {
+    db.countries.remove( { _id: req.params.id }, {}, err => {
         if ( err ) {
             res.json( { status: "error", error: err } );
             return;

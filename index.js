@@ -40,7 +40,7 @@ app.use( ( req, res, next ) => {
     }
 } );
 
-const baseUrl = process.env.NODE_ENV !== "production" ? "/api" : "";
+const baseUrl = "";
 
 // Players routes
 app.options( `${ baseUrl }/players/:id`, cors() );

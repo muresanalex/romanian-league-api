@@ -8,8 +8,6 @@ const teamController = require( "./controllers/teamsController" );
 const leagueController = require( "./controllers/leaguesController" );
 const countryController = require( "./controllers/countriesController" );
 
-const baseUrl = process.env.NODE_ENV !== "production" ? "/api" : "";
-
 dotenv.config();
 const app = express();
 const port = 4000;
@@ -41,6 +39,8 @@ app.use( ( req, res, next ) => {
         next();
     }
 } );
+
+const baseUrl = process.env.NODE_ENV === "production" ? "" : "/api";
 
 // Players routes
 app.options( `${ baseUrl }/players/:id`, cors() );

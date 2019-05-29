@@ -24,4 +24,9 @@ db.countries = new Datastore( {
     autoload: true,
 } );
 
+db.formations = new Datastore( {
+    filename: `${ path.join( __dirname, basePath, "/formations.db" ) }`,
+    autoload: true,
+} );
+
 module.exports = { db };

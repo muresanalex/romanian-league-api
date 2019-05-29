@@ -7,6 +7,7 @@ const playerController = require( "./controllers/playersController" );
 const teamController = require( "./controllers/teamsController" );
 const leagueController = require( "./controllers/leaguesController" );
 const countryController = require( "./controllers/countriesController" );
+const formationController = require( "./controllers/formationController" );
 
 dotenv.config();
 const app = express();
@@ -73,6 +74,14 @@ app.get( `${ baseUrl }/countries/:id`, countryController.getCountry );
 app.post( `${ baseUrl }/countries`, countryController.createCountry );
 app.put( `${ baseUrl }/countries/:id`, cors(), countryController.updateCountry );
 app.delete( `${ baseUrl }/countries/:id`, cors(), countryController.deleteCountry );
+
+// Formation routes
+app.options( `${ baseUrl }/formations/:id`, cors() );
+app.get( `${ baseUrl }/formations`, formationController.getFormations );
+app.get( `${ baseUrl }/formations/:id`, formationController.getFormation );
+app.post( `${ baseUrl }/formations`, formationController.createFormation );
+app.put( `${ baseUrl }/formations/:id`, cors(), formationController.updateFormation );
+app.delete( `${ baseUrl }/formations/:id`, cors(), formationController.deleteFormation );
 
 app.listen( port, () => {
     console.log( "Listening to port:", port );

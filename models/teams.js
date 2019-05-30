@@ -11,6 +11,8 @@ const schema = Joi.object().keys( {
     image: Joi.string()
         .allow( "" )
         .optional(),
+    formation: Joi.string(),
+    firstEleven: Joi.object(),
 } );
 
 module.exports = { schema };

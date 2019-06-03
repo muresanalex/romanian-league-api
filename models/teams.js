@@ -4,6 +4,7 @@ const schema = Joi.object().keys( {
     name: Joi.string().required(),
     countryId: Joi.string().required(),
     leagueId: Joi.string().required(),
+    rivalTeamId: Joi.string().required(),
     stadium: Joi.string(),
     coach: Joi.string(),
     firstColor: Joi.string(),
